@@ -42,4 +42,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sqlite3", "~> 1.3"
   spec.add_development_dependency "byebug", "~> 9.0"
   spec.add_development_dependency "awesome_print", "~> 1.8"
+  spec.add_development_dependency "pg", "~> 0.18"
 end
