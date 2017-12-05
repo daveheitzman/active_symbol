@@ -22,13 +22,15 @@ module ActiveSymbol
       # else 
       #   return self 
       # end 
-      if [ @to_s_call_count, @gsub_call_count, @to_sym_call_count,@include_call_count ].all?{ |v| 
-        v && v > 0 
-      }
-        return sanitized_string 
-      else 
-        return self
-      end 
+      # if [ @to_s_call_count, @gsub_call_count, @to_sym_call_count,@include_call_count ].all?{ |v| 
+      #   v && v > 0 
+      # }
+        return self 
+        # return sanitized_string 
+      # else 
+      #   return self
+      # end 
+
     end 
     
     def singularize

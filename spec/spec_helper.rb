@@ -19,11 +19,15 @@ end
 #################################################################################
 
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
+# ActiveRecord::Base.establish_connection adapter: "postgresql", 
+#   database: "active_symbol_test",
+#   :username=>:active_symbol_test, :password=>"active_symbol_test"
 
 def setup_db(options = {})
   # AR keeps printing annoying schema statements
-  capture_stdout do
-  end
+  # capture_stdout do
+  # end
+
     ActiveRecord::Base.logger
     ActiveRecord::Schema.define(version: 1) do
       create_table :mixins, force: true do |t|
