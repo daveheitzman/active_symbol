@@ -19,9 +19,9 @@ end
 #################################################################################
 
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
-# ActiveRecord::Base.establish_connection adapter: "postgresql", 
-#   database: "active_symbol_test",
-#   :username=>:active_symbol_test, :password=>"active_symbol_test"
+ActiveRecord::Base.establish_connection adapter: "postgresql", 
+  database: "active_symbol_test",
+  :username=>:active_symbol_test, :password=>"active_symbol_test"
 
 def setup_db(options = {})
   # AR keeps printing annoying schema statements
@@ -30,18 +30,13 @@ def setup_db(options = {})
 
     ActiveRecord::Base.logger
     ActiveRecord::Schema.define(version: 1) do
+      drop_table :mixins, :if=>:exists rescue nil
       create_table :mixins, force: true do |t|
-        t.column :type, :string
+        t.column :typa, :string
         t.column :parent_id, :integer
         t.column :external_id, :integer if options[:external_ids]
         t.column :external_parent_id, :integer if options[:external_ids]
         t.column :children_count, :integer, default: 0 if options[:counter_cache]
-        t.timestamps null: false
-      end
-
-      create_table :level_mixins, force: true do |t|
-        t.column :level, :string
-        t.column :parent_id, :integer
         t.timestamps null: false
       end
     end
