@@ -12,11 +12,15 @@ module ActiveSymbol
       @predicate_method=predicate_method
       @symbol=sym
     end 
+    
+    def is_a?(klass)
+      [Hash, ActiveSymbol::Base, Symbol].include? klass 
+    end 
 
     def to_s
       @to_s_call_count ||= 0 
       @to_s_call_count += 1
-      STDOUT.puts "call_counts => #{[ @to_s_call_count, @gsub_call_count, @to_sym_call_count,@include_call_count ]}" 
+      # STDOUT.puts "call_counts => #{[ @to_s_call_count, @gsub_call_count, @to_sym_call_count,@include_call_count ]}" 
       # if @gsub_call_count > 0 && @to_sym_call_count > 0 
       #   return sanitized_string 
       # else 
@@ -34,7 +38,7 @@ module ActiveSymbol
     end 
     
     def singularize
-      STDOUT.puts "singularize called" 
+      # STDOUT.puts "singularize called" 
       self
     end
 
@@ -47,7 +51,7 @@ module ActiveSymbol
     end 
     
     def sanitized_string 
-      STDOUT.puts "sanitized_string called" 
+      # STDOUT.puts "sanitized_string called" 
       
       @sanitized_string || @raw_string
     end 
@@ -55,7 +59,7 @@ module ActiveSymbol
     def gsub(needle, replacement, *rest)
       @gsub_call_count ||= 0
       @gsub_call_count += 1 
-      STDOUT.puts "gsub called" 
+      # STDOUT.puts "gsub called" 
       @sanitized_string = @raw_string.gsub(needle,replacement)
       self  
     end 
@@ -63,7 +67,7 @@ module ActiveSymbol
     def to_sym
       @to_sym_call_count ||= 0
       @to_sym_call_count += 1
-      STDOUT.puts "to_sym called" 
+      # STDOUT.puts "to_sym called" 
       self
     end 
 

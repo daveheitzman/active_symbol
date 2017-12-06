@@ -5,15 +5,17 @@ module ActiveRecord
       def call(attribute, value)
         if attribute.name.is_a?(ActiveSymbol::Base)
   # raise 'got to ActiveSymbolHandler'
-  STDOUT.puts 'got to ActiveSymbolHandler'
+  STDOUT.puts 'got to BasicObjectHandler'
   STDOUT.puts [attribute,value].inspect
           # new_predicate_builder = predicate_builder || PredicateBuilder.new(table_metadata)
   # byebug
+          predicate_builder = PredicateBuilder.new(table_metadata)
+          ActiveSymbolHandler.new(predicate_builder)
           # bind = predicate_builder.build_bind_attribute(attribute.name, value)
           # bind=attribute.name.build_bind_attribute(attribute,value)
 # bind=nil
   # STDOUT.puts bind.inspect
-  STDOUT.puts attribute.inspect
+  # STDOUT.puts attribute.inspect
     "jj=>ff"
           # attribute.name is where the ActiveSymbol instance is stored
           # bind=
