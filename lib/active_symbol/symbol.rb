@@ -27,6 +27,11 @@ class Symbol
   end
   alias :in :within
 
+  def match
+    ActiveSymbol::Base.new(self, :matches)
+  end
+  alias :like :match
+
 
 #     def not_eq_any others
 #       grouping_any :not_eq, others

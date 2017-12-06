@@ -73,4 +73,10 @@ RSpec.describe ActiveSymbol do
     expect(actual).to eq(expected)
   end
 
+  it "generates correct sql for default :symbol.like => '123'" do
+    actual = Mixin.where( :typa.like => "aard" ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE (\"mixins\".\"typa\" ILIKE 'aard')"
+    expect(actual).to eq(expected)
+  end
+
 end
