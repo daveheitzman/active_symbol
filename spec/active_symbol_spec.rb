@@ -46,7 +46,7 @@ RSpec.describe ActiveSymbol do
 
   it "generates correct sql for :symbol.in" do
     actual = Mixin.where( :children_count.in => (38291..789790) ).to_sql 
-    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"children_count\" > 38291 AND \"mixins\".\"children_count\" < 789790 "
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE (\"mixins\".\"children_count\" BETWEEN 38291 AND 789790)"
     expect(actual).to eq(expected)
   end
 
