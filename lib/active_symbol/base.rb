@@ -10,6 +10,7 @@ module ActiveSymbol
       @sanitized_string=sym.to_s
       @raw_string=sym.to_s
       @predicate_method=predicate_method
+      @to_s_sanitized_string=false
       @symbol=sym
     end 
     
@@ -29,14 +30,15 @@ module ActiveSymbol
       # if [ @to_s_call_count, @gsub_call_count, @to_sym_call_count,@include_call_count ].all?{ |v| 
       #   v && v > 0 
       # }
+      if @to_s_sanitized_string
+        return sanitized_string
+      else 
         return self 
-        # return sanitized_string 
-      # else 
-      #   return self
-      # end 
-
+      end 
     end 
-    
+    def to_s_sanitized_string!
+      @to_s_sanitized_string = true     
+    end 
     def singularize
       # STDOUT.puts "singularize called" 
       self
@@ -77,6 +79,7 @@ module ActiveSymbol
     def build_bind_attribute(attribute,value)
      # 59        attr = Relation::QueryAttribute.new(column_name.to_s, value, table.type(column_name))
      # 60:       Arel::Nodes::BindParam.new(attr)
+  raise 'build_bind_attribute'
       attr = ActiveRecord::Relation::QueryAttribute.new(attribute.name.to_s, value, nil)
       # bind_param=Arel::Nodes::BindParam.new()
       # byebug

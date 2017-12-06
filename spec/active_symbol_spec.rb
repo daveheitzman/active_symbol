@@ -67,4 +67,11 @@ RSpec.describe ActiveSymbol do
     expect(actual).to eq(expected)
   end
 
+  it "generates correct sql for default :symbol => 123" do
+    # byebug
+    actual = Mixin.where( :children_count => 38291 ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"children_count\" = 38291"
+    expect(actual).to eq(expected)
+  end
+
 end
