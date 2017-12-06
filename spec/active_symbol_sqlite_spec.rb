@@ -18,7 +18,7 @@ require 'active_symbol'
 
 RSpec.describe ActiveSymbol do
   before(:all) do 
-    setup_for_postgres
+    setup_for_sqlite
   end 
 
   it "has a version number" do
@@ -28,6 +28,17 @@ RSpec.describe ActiveSymbol do
   it "generates correct sql for :symbol.gt" do
     actual = Mixin.where( :children_count.gt => 38291 ).to_sql 
     expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE (\"mixins\".\"children_count\" > 38291)"
+    expect(actual).to eq(expected)
+  end
+
+  it "generates correct instantiated output for :symbol.gt" do
+    actual = Mixin.where( :children_count.gt => 38291 ).to_a 
+    expected = Mixin.where("children_count > 38291").to_a
+    expect(actual).to eq(expected)
+  end
+  it "generates correct instantiated output for :symbol.gte" do
+    actual = Mixin.where( :children_count.gte => 38291 ).to_a 
+    expected = Mixin.where("children_count >= 38291").to_a
     expect(actual).to eq(expected)
   end
 

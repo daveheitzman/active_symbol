@@ -18,25 +18,30 @@ end
 # 
 #################################################################################
 
-ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
-ActiveRecord::Base.establish_connection adapter: "postgresql", 
-  database: "active_symbol_test",
-  :username=>:active_symbol_test, :password=>"active_symbol_test"
+def setup_for_postgres
+  ActiveRecord::Base.establish_connection adapter: "postgresql", 
+    database: "active_symbol_test",
+    :username=>:active_symbol_test, :password=>"active_symbol_test"
+  setup_db
+end 
 
+def setup_for_sqlite
+  ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
+  setup_db
+end 
+
+
+class Mixin < ActiveRecord::Base ; end
 def setup_db(options = {})
   # AR keeps printing annoying schema statements
-  # capture_stdout do
-  # end
-
+  capture_stdout do
     ActiveRecord::Base.logger
     ActiveRecord::Schema.define(version: 1) do
       drop_table :mixins, :if=>:exists rescue nil
       create_table :mixins, force: true do |t|
         t.column :typa, :string
         t.column :parent_id, :integer
-        t.column :external_id, :integer if options[:external_ids]
-        t.column :external_parent_id, :integer if options[:external_ids]
-        t.column :children_count, :integer, default: 0 if options[:counter_cache]
+        t.column :children_count, :integer, default: 0
         t.timestamps null: false
       end
     end
@@ -46,8 +51,16 @@ def setup_db(options = {})
        ActiveRecord::VERSION::MAJOR == 4 && ActiveRecord::VERSION::MINOR == 1
       ActiveRecord::Base.connection.schema_cache.clear!
     end
+    Mixin.reset_column_information
+    Mixin.new(:typa=>"aardvark", :children_count=>50023).save!
+    Mixin.new(:typa=>"wolfvark", :children_count=>1).save!
+  end
+  
+
 end
-setup_db
+  
+
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
